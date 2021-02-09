@@ -39,7 +39,7 @@ namespace PdfGenerator
             }
 
             app.UseRouting();
-
+            app.UseStaticFiles();
             app.UseAuthorization();
             app.PreparePuppeteerAsync(env).GetAwaiter().GetResult();
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });

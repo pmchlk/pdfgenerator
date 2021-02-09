@@ -8,13 +8,17 @@ namespace PdfGenerator.Extensions
 {
     public static class PuppeteerExtensions
     {
+        private static string _executablePath;
         public static async Task PreparePuppeteerAsync(this IApplicationBuilder applicationBuilder,
             IWebHostEnvironment hostingEnvironment)
         {
-            var browserPath = Path.Join(hostingEnvironment.ContentRootPath, @"\puppeteer");
-            var browserOptions = new BrowserFetcherOptions {Path = browserPath};
+            var downloadPath = Path.Join(hostingEnvironment.ContentRootPath, @"\puppeteer");
+            var browserOptions = new BrowserFetcherOptions {Path = downloadPath};
             var browserFetcher = new BrowserFetcher(browserOptions);
+            _executablePath = browserFetcher.GetExecutablePath(BrowserFetcher.DefaultRevision);
             await browserFetcher.DownloadAsync(BrowserFetcher.DefaultRevision);
         }
+
+        public static string ExecutablePath => _executablePath;
     }
 }

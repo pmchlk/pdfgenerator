@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using PdfGenerator.Extensions;
 using PdfGenerator.Services.Meta;
 using PdfGenerator.ViewModels;
 using PuppeteerSharp;
@@ -41,7 +42,8 @@ namespace PdfGenerator.Controllers
             var html = await _templateService.RenderAsync("Templates/InvoiceTemplate", model);
             await using var browser = await Puppeteer.LaunchAsync(new LaunchOptions
             {
-                Headless = true
+                Headless = true,
+                ExecutablePath = PuppeteerExtensions.ExecutablePath
             });
             await using var page = await browser.NewPageAsync();
             await page.EmulateMediaTypeAsync(MediaType.Screen);
